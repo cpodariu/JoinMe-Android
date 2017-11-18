@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.alexandru.joinme_android.Helpers.NetworkUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -54,15 +55,9 @@ public class LoginActivity extends AppCompatActivity {
         if (email == null || password == null)
             Toast.makeText(this, "Credentials can't be empty", Toast.LENGTH_SHORT).show();
 
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme("http")
-                .encodedAuthority("192.168.43.253:8080/rest/login/auth")
-                .appendQueryParameter("email", email)
-                .appendQueryParameter("password", password);
-        String myUrl = builder.build().toString();
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, myUrl, new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, NetworkUtils.buildLogInUrl(email, password), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 LoginActivity.this.startNavigationDrawer();
