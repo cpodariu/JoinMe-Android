@@ -1,0 +1,77 @@
+package com.example.alexandru.joinme_android;
+
+
+import android.app.DownloadManager;
+import android.net.Uri;
+import android.provider.SyncStateContract;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class LoginActivity extends AppCompatActivity {
+
+    EditText mEmailEdit;
+    EditText mPasswordEdit;
+    Button logInButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        mEmailEdit = (EditText) findViewById(R.id.email_text);
+        mPasswordEdit = (EditText) findViewById(R.id.password_text);
+        logInButton = (Button) findViewById(R.id.log_in_button);
+
+        logInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginActivity.this.logIn();
+            }
+        });
+    }
+
+    void logIn()
+    {
+        final String email = mEmailEdit.getText().toString();
+        final String password = mPasswordEdit.getText().toString();
+        if (email == null || password == null)
+            Toast.makeText(this, "Credentials can't be empty", Toast.LENGTH_SHORT).show();
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .encodedAuthority("192.168.43.253:8080/rest/login/auth")
+                .appendQueryParameter("email", email)
+                .appendQueryParameter("password", password);
+        String myUrl = builder.build().toString();
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, myUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mEmailEdit.setText("LOGGED IN");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(sr);
+    }
+}
