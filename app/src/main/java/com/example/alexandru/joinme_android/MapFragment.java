@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.alexandru.joinme_android.Helpers.NetworkUtils;
 import com.example.alexandru.joinme_android.Helpers.SharedPreferencesHelper;
 import com.example.alexandru.joinme_android.domain.Event;
 import com.example.alexandru.joinme_android.domain.response.EventResponse;
@@ -55,7 +56,7 @@ import java.util.List;
  * Created by Alexandru on 11/18/2017.
  */
 
-public class MapFragment extends Fragment  {
+public class MapFragment extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
 
@@ -96,78 +97,55 @@ public class MapFragment extends Fragment  {
 
                 LatLng cluj = new LatLng(46.782719, 23.607913);
                 googleMap.addMarker(new MarkerOptions()
-                                    .position(cluj)
-                                    .title("Marker Title")
-                                    .snippet("Marker Description")
-                                    //.icon(BitmapDescriptorFactory.fromResource(R.drawable.test))
-                                    );
-                drawEventMarkers();
+                                .position(cluj)
+                                .title("Marker Title")
+                                .snippet("Marker Description")
+                        //.icon(BitmapDescriptorFactory.fromResource(R.drawable.test))
+                );
 
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(cluj).zoom(16).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                RequestQueue queue = Volley.newRequestQueue(getActivity());
+                String email = SharedPreferencesHelper.getUserEmail(getActivity());
+                String passwd = SharedPreferencesHelper.getUserPassword(getActivity());
+                String myUrl = NetworkUtils.buildGetEventsByInterestsUrl(email,passwd);
+                final String[] jsonArray = {""};
+                StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, myUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        drawEventMarkers(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                queue.add(sr);
             }
         });
-
 
 
         return v;
     }
 
-    private void drawEventMarkers() {
+    private void drawEventMarkers(String jsonArray) {
+        // to get
 
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String email= SharedPreferencesHelper.getUserEmail(getActivity());
-        String passwd=SharedPreferencesHelper.getUserPassword(getActivity());
-        String myUrl="http://192.168.43.253:8080/rest/getEventsByInterests?email="+email+"&password="+passwd;
-        StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, myUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        queue.add(sr);
-
-        String jsonArray=""; // to get
-        /*
-        Type eventResponseType = new TypeToken<EventResponse>(){}.getType();
-        EventResponse eventResponse = new Gson().fromJson(jsonArray, eventResponseType);
-        */
+        EventResponse eventResponse = new Gson().fromJson(jsonArray, EventResponse.class);
 
 
-        LatLng ev1 = new LatLng(46.790719, 23.607913);
-        LatLng ev2 = new LatLng(46.794719, 23.597913);
-        LatLng ev3 = new LatLng(46.762719, 23.627913);
-        LatLng ev4 = new LatLng(46.792719, 23.607913);
-        LatLng ev5 = new LatLng(46.779719, 23.605913);
-        List<LatLng> list=new ArrayList<>();
-        list.add(ev1);
-        list.add(ev2);
-        list.add(ev3);
-        list.add(ev4);
-        list.add(ev5);
-        for(LatLng ll:list){
-            googleMap.addMarker(new MarkerOptions()
-                    .position(ll)
-                    .title("titlu")
-                    .snippet("Marker Description")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.test)));
-        }
-        /*
         for(Event e:eventResponse.getEvents()){
             String[] coordStr = e.getLocation().split(",");
             LatLng coord=new LatLng(Float.parseFloat(coordStr[0]),Float.parseFloat(coordStr[1]));
             googleMap.addMarker(new MarkerOptions()
                     .position(coord)
                     .title(e.getName())
-                    .snippet("Marker Description")
+                    .snippet(""+e.getUsers().size()+" participants.")
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.test)));
-        }*/
+        }
         //to do
     }
 
