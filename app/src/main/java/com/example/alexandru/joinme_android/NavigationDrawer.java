@@ -22,7 +22,7 @@ import com.example.alexandru.joinme_android.EventsList.EventsListFragment;
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int CONTENT_VIEW_ID = 10101010;
+    public static final int CONTENT_VIEW_ID = 10101010;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
