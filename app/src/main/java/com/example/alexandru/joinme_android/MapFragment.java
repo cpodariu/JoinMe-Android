@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.alexandru.joinme_android.Helpers.SharedPreferencesHelper;
 import com.example.alexandru.joinme_android.domain.Event;
 import com.example.alexandru.joinme_android.domain.response.EventResponse;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -46,6 +47,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +115,23 @@ public class MapFragment extends Fragment  {
     }
 
     private void drawEventMarkers() {
+
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        String email= SharedPreferencesHelper.getUserEmail(getActivity());
+        String passwd=SharedPreferencesHelper.getUserPassword(getActivity());
+        String myUrl="http://192.168.43.253:8080/rest/getEventsByInterests?email="+email+"&password="+passwd;
+        StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, myUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(sr);
 
         String jsonArray=""; // to get
         /*

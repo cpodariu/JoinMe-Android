@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
-                .encodedAuthority("192.168.43.253:8080/rest/login/auth")
+                .encodedAuthority("192.168.43.253:8080/rest/login")
                 .appendQueryParameter("email", email)
                 .appendQueryParameter("password", password);
         String myUrl = builder.build().toString();
@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, myUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 LoginActivity.this.startNavigationDrawer();
             }
         }, new Response.ErrorListener() {
