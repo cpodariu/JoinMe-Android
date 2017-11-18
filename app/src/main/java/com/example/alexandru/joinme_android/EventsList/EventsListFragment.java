@@ -8,7 +8,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.alexandru.joinme_android.Helpers.NetworkUtils;
+import com.example.alexandru.joinme_android.Helpers.SharedPreferencesHelper;
 import com.example.alexandru.joinme_android.R;
+import com.example.alexandru.joinme_android.domain.response.EventResponse;
+import com.google.gson.Gson;
 
 /**
  * Created by cpodariu on 11/18/17.
@@ -31,7 +41,7 @@ public class EventsListFragment extends Fragment {
     protected RecyclerView mRecyclerView;
     protected EventsAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected String[] mDataset;
+    protected EventResponse mEventResponse;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +74,7 @@ public class EventsListFragment extends Fragment {
         }
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new EventsAdapter(mDataset);
+        mAdapter = new EventsAdapter(this.mEventResponse, getFragmentManager());
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
 
@@ -115,9 +125,21 @@ public class EventsListFragment extends Fragment {
      * from a local content provider or remote server.
      */
     private void initDataset() {
-        mDataset = new String[DATASET_COUNT];
-        for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = "This is element #" + i;
-        }
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        String email = SharedPreferencesHelper.getUserEmail(getActivity());
+        String passwd = SharedPreferencesHelper.getUserPassword(getActivity());
+        String myUrl = NetworkUtils.buildGetEventsByInterestsUrl(email,passwd);
+        final String[] jsonArray = {""};
+        StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, myUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mAdapter.setData(new Gson().fromJson(response, EventResponse.class));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        queue.add(sr);
     }
 }

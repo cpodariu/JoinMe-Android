@@ -134,7 +134,6 @@ public class MapFragment extends Fragment {
     }
 
     private void drawEventMarkers(String jsonArray) {
-        // to get
 
         EventResponse eventResponse = new Gson().fromJson(jsonArray, EventResponse.class);
 
