@@ -53,7 +53,7 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
 
     private Boolean check;
     @SuppressLint("ValidFragment")
-    ShowEventFragment(Event event) {
+    public ShowEventFragment(Event event) {
         this.event = event;
     }
 

@@ -148,7 +148,7 @@ public class MapFragment extends Fragment {
                     .position(coord)
                     .title(e.getName())
                     .snippet(""+numberOfUsers+" participants.")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.test));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.sport_bowling_pin));
             Marker currentMarker = googleMap.addMarker(markerOptions);
             markerCollection.put(currentMarker,e);
 
