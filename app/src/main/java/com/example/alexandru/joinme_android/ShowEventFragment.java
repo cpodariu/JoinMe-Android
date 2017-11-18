@@ -1,6 +1,7 @@
 package com.example.alexandru.joinme_android;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 
 public class ShowEventFragment extends Fragment implements OnMapReadyCallback,View.OnClickListener{
-    Button button2;
+    FloatingActionButton button2;
 
 
     MainActivity baseActivity;
@@ -46,7 +47,7 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
                              Bundle savedInstanceState) {
         View view = container.inflate(getActivity(), R.layout.show_event_fragment, null);
 
-        button2 = (Button) view.findViewById(R.id.button2);
+        button2 = (FloatingActionButton) view.findViewById(R.id.button2);
         button2.setOnClickListener(this);
 
         mMapView = (MapView) view.findViewById(R.id.map_dashBoard);
@@ -63,6 +64,8 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
         textView2 = (TextView) view.findViewById(R.id.textView2);
         textView3 = (TextView) view.findViewById(R.id.textView3);
         textView4 = (TextView) view.findViewById(R.id.textView4);
+
+
 
         this.setEventText("test1");
         this.setDescriptionText("test2");
@@ -110,7 +113,7 @@ Event{id=3, name='Alergat', description='Fugit la caterinca prin parc', date='20
             @Override
             public void onResponse(String response) {
                 button2.setEnabled(false);
-                button2.setText("Joined");
+                //button2.setText("Joined");
             }
         }, new Response.ErrorListener() {
             @Override
