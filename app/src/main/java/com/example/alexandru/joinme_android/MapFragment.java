@@ -140,10 +140,13 @@ public class MapFragment extends Fragment {
         for(Event e:eventResponse.getEvents()){
             String[] coordStr = e.getLocation().split(",");
             LatLng coord=new LatLng(Float.parseFloat(coordStr[0]),Float.parseFloat(coordStr[1]));
+            int numberOfUsers=0;
+            if(e.getUsers()!=null)
+                numberOfUsers=e.getUsers().size();
             googleMap.addMarker(new MarkerOptions()
                     .position(coord)
                     .title(e.getName())
-                    .snippet(""+e.getUsers().size()+" participants.")
+                    .snippet(""+numberOfUsers+" participants.")
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.test)));
         }
         //to do
