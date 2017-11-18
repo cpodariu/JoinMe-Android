@@ -2,6 +2,7 @@ package com.example.alexandru.joinme_android;
 
 
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.net.Uri;
 import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
@@ -64,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, myUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                mEmailEdit.setText("LOGGED IN");
+                LoginActivity.this.startNavigationDrawer();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -73,5 +74,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         queue.add(sr);
+    }
+
+    void startNavigationDrawer()
+    {
+        Intent intent = new Intent(this, NavigationDrawer.class);
+        startActivity(intent);
     }
 }

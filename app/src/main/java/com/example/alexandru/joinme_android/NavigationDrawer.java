@@ -44,7 +44,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        setFragment(new TestFragment());
+        setFragment(new MapFragment());
 
     }
     public void setFragment(Fragment fragment)
