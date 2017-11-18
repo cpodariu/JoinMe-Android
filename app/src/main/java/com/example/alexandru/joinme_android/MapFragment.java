@@ -1,6 +1,7 @@
 package com.example.alexandru.joinme_android;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,11 +72,14 @@ public class MapFragment extends Fragment {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         Event e=markerCollection.get(marker);
+
+                        final FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ShowEventFragment eventFragment=new ShowEventFragment();
-                        //getActivity().getSupportFragmentManager().beginTransaction()
-                        //        .replace(R.id.snow_event_fragment, eventFragment,"findThisFragment")
-                       //         .addToBackStack(null)
-                       //         .commit();
+                        ft.replace(R.id.frag_container_id,eventFragment, "NewFragmentTag");
+                        ft.addToBackStack(null);
+                        ft.commit();
+
+
                     }
                 });
 
