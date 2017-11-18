@@ -6,4 +6,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="open">Open</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="next">Next</string>
+    <string-array name="event_type">
+        <item>Sport</item>
+        <item>Art</item>
+        <item>Drinking</item>
+    </string-array>
 </resources>

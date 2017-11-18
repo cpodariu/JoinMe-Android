@@ -28,6 +28,16 @@ public class Event {
         this.admin = admin;
     }
 
+    public Event(String name, String description, String date, String time, String location, ArrayList<User> users, int admin) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.time = time;
+        this.location = location;
+        this.users = users;
+        this.admin = admin;
+    }
+
     public int getId() {
         return id;
     }
