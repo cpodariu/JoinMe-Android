@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.alexandru.joinme_android.Helpers.NetworkUtils;
+import com.example.alexandru.joinme_android.Helpers.SharedPreferencesHelper;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -54,12 +55,11 @@ public class LoginActivity extends AppCompatActivity {
         final String password = mPasswordEdit.getText().toString();
         if (email == null || password == null)
             Toast.makeText(this, "Credentials can't be empty", Toast.LENGTH_SHORT).show();
-
-
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, NetworkUtils.buildLogInUrl(email, password), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                SharedPreferencesHelper.logIn(email, password, LoginActivity.this);
                 LoginActivity.this.startNavigationDrawer();
             }
         }, new Response.ErrorListener() {
