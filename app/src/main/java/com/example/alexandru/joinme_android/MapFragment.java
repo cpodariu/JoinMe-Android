@@ -86,14 +86,13 @@ public class MapFragment extends Fragment {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         Event e=markerCollection.get(marker);
-
-                        final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ShowEventFragment eventFragment=new ShowEventFragment(e);
-                        ft.replace(R.id.frag_container_id,eventFragment, "NewFragmentTag");
-                        ft.addToBackStack(null);
-                        ft.commit();
-
-
+                        if(e!=null){
+                            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ShowEventFragment eventFragment=new ShowEventFragment(e);
+                            ft.replace(R.id.frag_container_id,eventFragment, "NewFragmentTag");
+                            ft.addToBackStack(null);
+                            ft.commit();
+                        }
                     }
                 });
 
@@ -136,7 +135,6 @@ public class MapFragment extends Fragment {
     private void drawEventMarkers(String jsonArray) {
 
         EventResponse eventResponse = new Gson().fromJson(jsonArray, EventResponse.class);
-
 
         for(Event e:eventResponse.getEvents()){
             String[] coordStr = e.getLocation().split(",");
