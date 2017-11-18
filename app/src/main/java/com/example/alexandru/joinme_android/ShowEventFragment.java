@@ -2,6 +2,7 @@ package com.example.alexandru.joinme_android;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 @SuppressLint("ValidFragment")
 public class ShowEventFragment extends Fragment implements OnMapReadyCallback,View.OnClickListener{
-    Button button2;
+    FloatingActionButton button2;
 
 
     MainActivity baseActivity;
@@ -76,12 +77,11 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
         latitude = Float.parseFloat(coordinates[0]);
         longitude = Float.parseFloat(coordinates[1]);
 
-        button2 = (Button) view.findViewById(R.id.button2);
+        button2 = (FloatingActionButton) view.findViewById(R.id.button2);
         button2.setOnClickListener(this);
 
         if (check) {
             button2.setEnabled(false);
-            button2.setText("Joined");
         }
 
         mMapView = (MapView) view.findViewById(R.id.map_dashBoard);
@@ -102,6 +102,7 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
         this.setEventText(event.getName());
         this.setDescriptionText(event.getDescription());
         this.setDateText(event.getDate());
+
 
         return view;
     }
@@ -139,18 +140,12 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
         String eventid = Integer.toString(event.getId());
 
 
-        /*
-        Event{id=1, name='Party Hard', description='Bautura si manele la hackaton', date='18.11.2017', time='20:00', location='46.790719, 23.607913', users=null, admin=1}
-6:15
-Event{id=3, name='Alergat', description='Fugit la caterinca prin parc', date='20.11.2017', time='10:00', location='46.792719, 23.607913', users=null, admin=1}
-         */
         if (!check) {
             RequestQueue queue = Volley.newRequestQueue(getActivity());
             StringRequest sr = new StringRequest(Request.Method.GET, NetworkUtils.buildJoinEventUrl(email, password, eventid), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     button2.setEnabled(false);
-                    button2.setText("Joined");
                 }
             }, new Response.ErrorListener() {
                 @Override
