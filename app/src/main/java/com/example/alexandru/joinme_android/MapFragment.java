@@ -1,27 +1,12 @@
 package com.example.alexandru.joinme_android;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.location.LocationListener;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,9 +16,6 @@ import com.example.alexandru.joinme_android.Helpers.NetworkUtils;
 import com.example.alexandru.joinme_android.Helpers.SharedPreferencesHelper;
 import com.example.alexandru.joinme_android.domain.Event;
 import com.example.alexandru.joinme_android.domain.response.EventResponse;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -45,12 +27,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Created by Alexandru on 11/18/2017.
@@ -59,6 +37,7 @@ import java.util.List;
 public class MapFragment extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
+    HashMap<Marker, Event> markerCollection = new HashMap<Marker, Event>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,7 +70,12 @@ public class MapFragment extends Fragment {
                 googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        Toast.makeText(getActivity(), "MAiiii!", Toast.LENGTH_SHORT).show();
+                        Event e=markerCollection.get(marker);
+                        ShowEventFragment eventFragment=new ShowEventFragment();
+                        //getActivity().getSupportFragmentManager().beginTransaction()
+                        //        .replace(R.id.snow_event_fragment, eventFragment,"findThisFragment")
+                       //         .addToBackStack(null)
+                       //         .commit();
                     }
                 });
 
@@ -143,11 +127,14 @@ public class MapFragment extends Fragment {
             int numberOfUsers=0;
             if(e.getUsers()!=null)
                 numberOfUsers=e.getUsers().size();
-            googleMap.addMarker(new MarkerOptions()
+            MarkerOptions markerOptions=new MarkerOptions()
                     .position(coord)
                     .title(e.getName())
                     .snippet(""+numberOfUsers+" participants.")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.test)));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.test));
+            Marker currentMarker = googleMap.addMarker(markerOptions);
+            markerCollection.put(currentMarker,e);
+
         }
         //to do
     }

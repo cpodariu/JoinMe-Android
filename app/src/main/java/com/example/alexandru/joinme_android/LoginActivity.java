@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 SharedPreferencesHelper.logIn(email, password, LoginActivity.this);
-                LoginActivity.this.startNavigationDrawer();
+                //LoginActivity.this.startNavigationDrawer();
             }
         }, new Response.ErrorListener() {
             @Override
