@@ -88,7 +88,7 @@ public class MapFragment extends Fragment {
                         Event e=markerCollection.get(marker);
 
                         final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ShowEventFragment eventFragment=new ShowEventFragment();
+                        ShowEventFragment eventFragment=new ShowEventFragment(e);
                         ft.replace(R.id.frag_container_id,eventFragment, "NewFragmentTag");
                         ft.addToBackStack(null);
                         ft.commit();
