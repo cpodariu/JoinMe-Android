@@ -7,12 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
-
-import com.example.alexandru.joinme_android.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.add(CONTENT_VIEW_ID, newFragment).commit();
         }
-        setFragment(new TestFragment());
+        setFragment(new ShowEventFragment());
     }
 
     public void setFragment(Fragment fragment)
