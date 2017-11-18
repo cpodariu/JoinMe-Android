@@ -1,8 +1,8 @@
 package com.example.alexandru.joinme_android;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Fragment newFragment = new DebugExampleTwoFragment();
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(CONTENT_VIEW_ID, newFragment).commit();
         }
         setFragment(new ShowEventFragment());
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setFragment(Fragment fragment)
     {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(CONTENT_VIEW_ID, fragment).commit();
     }
 
