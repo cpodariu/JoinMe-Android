@@ -84,6 +84,14 @@ public class MapFragment extends Fragment  {
                 //googleMap.setMyLocationEnabled(true);
 
                 // For dropping a marker at a point on the Map
+
+                googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Toast.makeText(getActivity(), "MAiiii!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 LatLng cluj = new LatLng(46.782719, 23.607913);
                 googleMap.addMarker(new MarkerOptions()
                                     .position(cluj)
