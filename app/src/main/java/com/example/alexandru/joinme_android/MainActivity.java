@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(CONTENT_VIEW_ID, newFragment).commit();
         }
-        setFragment(new ShowEventFragment());
     }
 
     public void setFragment(Fragment fragment)
