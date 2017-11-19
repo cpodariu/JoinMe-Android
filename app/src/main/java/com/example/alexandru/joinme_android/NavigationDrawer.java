@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.alexandru.joinme_android.EventsList.EventsListFragment;
+import com.example.alexandru.joinme_android.EventsList.MyEventsListFragment;
 
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,7 +26,6 @@ public class NavigationDrawer extends AppCompatActivity
     public static final int CONTENT_VIEW_ID = 10101010;
 
     public Fragment previousFragment;
-    public Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,8 @@ public class NavigationDrawer extends AppCompatActivity
     }
     public void setFragment(Fragment fragment)
     {
-        previousFragment = currentFragment;
-        currentFragment = fragment;
+        if (MapFragment.class.isInstance(fragment) || EventsListFragment.class.isInstance(fragment) || MyEventsListFragment.class.isInstance(fragment))
+            this.previousFragment = fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frag_container_id, fragment).commit();
     }
@@ -69,7 +69,13 @@ public class NavigationDrawer extends AppCompatActivity
         } else {
             if (previousFragment != null)
             {
-                setFragment(previousFragment);
+                try {
+                    setFragment( previousFragment.getClass().newInstance());
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
                 previousFragment = null;
             }else
                 this.finish();
@@ -109,6 +115,9 @@ public class NavigationDrawer extends AppCompatActivity
         }else if (id == R.id.event_list_fragment)
         {
             this.setFragment(new EventsListFragment());
+        }else if (id == R.id.my_events_list_fragment)
+        {
+            this.setFragment(new MyEventsListFragment());
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
