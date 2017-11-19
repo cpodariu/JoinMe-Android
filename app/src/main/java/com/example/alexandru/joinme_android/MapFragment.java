@@ -45,10 +45,6 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 
-/**
- * Created by Alexandru on 11/18/2017.
- */
-
 public class MapFragment extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
