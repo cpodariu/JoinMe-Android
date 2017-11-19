@@ -1,7 +1,11 @@
 package com.example.alexandru.joinme_android.EventsList;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +18,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.alexandru.joinme_android.CreateEventFragment;
 import com.example.alexandru.joinme_android.Helpers.NetworkUtils;
 import com.example.alexandru.joinme_android.Helpers.SharedPreferencesHelper;
 import com.example.alexandru.joinme_android.R;
+import com.example.alexandru.joinme_android.ShowEventFragment;
 import com.example.alexandru.joinme_android.domain.response.EventResponse;
 import com.google.gson.Gson;
 
@@ -43,6 +49,8 @@ public class EventsListFragment extends Fragment {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected EventResponse mEventResponse;
 
+
+    private FloatingActionButton newEvent;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +85,17 @@ public class EventsListFragment extends Fragment {
         mAdapter = new EventsAdapter(this.mEventResponse, getFragmentManager());
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
+
+        newEvent = (FloatingActionButton) rootView.findViewById(R.id.new_event_button);
+        newEvent.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                CreateEventFragment eventFragment= new CreateEventFragment();
+                ft.replace(R.id.frag_container_id, eventFragment, "NewFragmentTag");
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
 
         return rootView;
     }
