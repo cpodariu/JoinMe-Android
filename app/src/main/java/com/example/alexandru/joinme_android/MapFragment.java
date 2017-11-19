@@ -1,5 +1,9 @@
 package com.example.alexandru.joinme_android;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -25,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -128,6 +133,21 @@ public class MapFragment extends Fragment {
         return -1;
     }
 
+    private Drawable resize(Drawable image) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 80, 120, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
+    }
+
+    private BitmapDescriptor getMarkerIconFromDrawable(Drawable drawable) {
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
     private void drawEventMarkers(String jsonArray) {
 
         EventResponse eventResponse = new Gson().fromJson(jsonArray, EventResponse.class);
@@ -145,21 +165,16 @@ public class MapFragment extends Fragment {
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other_pin));
             String pinName=e.getCategory().toLowerCase()+"_"+e.getName().toLowerCase()+"_pin";
             int drawableId=getDrawableId(pinName);
-            if(drawableId!=-1)
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(drawableId));
-            /*switch (e.getCategory()){
-                case "sport":
-                    break;
-                case "entertainment":
-                    break;
-                case "socialising":
-                    break;
-                case "culture":
-                    break;
-                default:
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other_pin));
+            Drawable newSizeImage;
+            if(drawableId!=-1) {
+                newSizeImage = resize(ContextCompat.getDrawable(getActivity(), drawableId));
+            }
+            else{
+                newSizeImage = resize(ContextCompat.getDrawable(getActivity(), R.drawable.other_pin));
+            }
+            BitmapDescriptor markerIcon = getMarkerIconFromDrawable(newSizeImage);
+            markerOptions.icon(markerIcon);
 
-            }*/
 
             Marker currentMarker = googleMap.addMarker(markerOptions);
             markerCollection.put(currentMarker,e);
