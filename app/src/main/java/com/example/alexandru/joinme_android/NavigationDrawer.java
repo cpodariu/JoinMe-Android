@@ -24,6 +24,9 @@ public class NavigationDrawer extends AppCompatActivity
 
     public static final int CONTENT_VIEW_ID = 10101010;
 
+    public Fragment previousFragment;
+    public Fragment currentFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,8 @@ public class NavigationDrawer extends AppCompatActivity
     }
     public void setFragment(Fragment fragment)
     {
+        previousFragment = currentFragment;
+        currentFragment = fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frag_container_id, fragment).commit();
     }
@@ -62,7 +67,12 @@ public class NavigationDrawer extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (previousFragment != null)
+            {
+                setFragment(previousFragment);
+                previousFragment = null;
+            }else
+                this.finish();
         }
     }
 
@@ -96,10 +106,14 @@ public class NavigationDrawer extends AppCompatActivity
 
         if (id == R.id.get_map_fragment) {
             this.setFragment(new MapFragment());
+        }else if (id == R.id.event_list_fragment)
+        {
+            this.setFragment(new EventsListFragment());
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

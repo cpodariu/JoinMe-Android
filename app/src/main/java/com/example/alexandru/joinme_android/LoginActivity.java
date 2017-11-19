@@ -3,6 +3,7 @@ package com.example.alexandru.joinme_android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -49,8 +50,12 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(com.android.volley.Request.Method.GET, NetworkUtils.buildLogInUrl(email, password), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                SharedPreferencesHelper.logIn(email, password, LoginActivity.this);
-                LoginActivity.this.startNavigationDrawer();
+                if (response.contains("true")) {
+                    SharedPreferencesHelper.logIn(email, password, LoginActivity.this);
+                    LoginActivity.this.startNavigationDrawer();
+                }else
+                    loginFailed();
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -65,5 +70,10 @@ public class LoginActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, NavigationDrawer.class);
         startActivity(intent);
+    }
+
+    void loginFailed()
+    {
+        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
     }
 }
