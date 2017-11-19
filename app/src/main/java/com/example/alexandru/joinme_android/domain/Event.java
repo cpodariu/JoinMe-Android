@@ -1,41 +1,39 @@
 package com.example.alexandru.joinme_android.domain;
 
-/**
- * Created by Alexandru on 11/18/2017.
- */
-
-
 import java.util.ArrayList;
 
 public class Event {
     private int id;
     private String name;
     private String description;
+    private String category;
     private String date;
     private String time;
     private String location;
     private ArrayList<User> users;
     private int admin; //TODO: User admin
+    private Boolean open;
 
-    public Event(int id, String name, String description, String date, String time, String location, int admin) {
-        this.id = id;
+
+    public Event(String name, String description, String category, String date, String time,
+                 String location, ArrayList<User> users, int admin, Boolean open) {
         this.name = name;
         this.description = description;
-        this.date = date;
-        this.time = time;
-        this.location = location;
-        this.users = new ArrayList<>();
-        this.admin = admin;
-    }
-
-    public Event(String name, String description, String date, String time, String location, ArrayList<User> users, int admin) {
-        this.name = name;
-        this.description = description;
+        this.category = category;
         this.date = date;
         this.time = time;
         this.location = location;
         this.users = users;
         this.admin = admin;
+        this.open = open;
+    }
+
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
     }
 
     public int getId() {
@@ -101,6 +99,13 @@ public class Event {
     public void setAdmin(int admin) {
         this.admin = admin;
     }
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     @Override
     public String toString() {
@@ -108,6 +113,7 @@ public class Event {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", category='" + category + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", location='" + location + '\'' +
