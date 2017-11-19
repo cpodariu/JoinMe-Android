@@ -82,6 +82,7 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
 
         if (check) {
             button2.setEnabled(false);
+            button2.setImageResource(R.drawable.delete_icon);
         }
 
         mMapView = (MapView) view.findViewById(R.id.map_dashBoard);

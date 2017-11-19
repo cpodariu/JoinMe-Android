@@ -1,6 +1,14 @@
 package com.example.alexandru.joinme_android.domain;
 
 import java.util.ArrayList;
+/**
+ * Created by Alexandru on 11/18/2017.
+ */
+
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class Event {
     private int id;
@@ -17,6 +25,8 @@ public class Event {
 
     public Event(String name, String description, String category, String date, String time,
                  String location, ArrayList<User> users, int admin, Boolean open) {
+
+        this.id = id;
         this.name = name;
         this.description = description;
         this.category = category;
@@ -32,7 +42,12 @@ public class Event {
         return open;
     }
 
-    public void setOpen(Boolean open) {
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
         this.open = open;
     }
 
@@ -119,6 +134,7 @@ public class Event {
                 ", location='" + location + '\'' +
                 ", users=" + users +
                 ", admin=" + admin +
+                ", open=" + open +
                 '}';
     }
 }
