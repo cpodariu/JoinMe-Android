@@ -1,16 +1,5 @@
 package com.example.alexandru.joinme_android;
 
-import android.Manifest;
-import android.app.AlertDialog;
-
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.location.LocationListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
