@@ -74,7 +74,7 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
         }
 
 
-        String[] coordinates = event.getLocation().split(", ");
+        String[] coordinates = event.getLocation().split(",");
         latitude = Double.parseDouble(coordinates[0]);
         longitude = Double.parseDouble(coordinates[1]);
 

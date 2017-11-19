@@ -123,7 +123,9 @@ public class CreateEventFragment extends Fragment {
                     queue.add(stringRequest);
                     queue.start();
                 }
+                getActivity().onBackPressed();
             }
+
             });
     }
 }
