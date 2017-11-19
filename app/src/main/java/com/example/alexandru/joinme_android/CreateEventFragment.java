@@ -1,9 +1,12 @@
 package com.example.alexandru.joinme_android;
 
-import android.app.Fragment;
+import android.app.Application;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +32,11 @@ import com.example.alexandru.joinme_android.domain.Event;
 import com.example.alexandru.joinme_android.domain.User;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CreateEventFragment extends Fragment {
@@ -42,6 +47,7 @@ public class CreateEventFragment extends Fragment {
     CheckBox open;
     Button add;
     EditText time;
+    EditText location;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +66,21 @@ public class CreateEventFragment extends Fragment {
         add = (Button) v.findViewById(R.id.add);
         date = v.findViewById(R.id.date);
         time = v.findViewById(R.id.time);
+        location = v.findViewById(R.id.location);
+
+        Geocoder coder = new Geocoder(getActivity());
+        List<Address> address = null;
+
+        try {
+            address = coder.getFromLocationName(location.getText().toString(),5);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location=address.get(0);
+
+        location.getLongitude();
+        final String userLocation = Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude());
+
 
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
                 .createFromResource(getActivity(), R.array.event_type,
@@ -74,7 +95,7 @@ public class CreateEventFragment extends Fragment {
                 if (name.toString() != "") {
 
                     event = new Event(name.getText().toString(), description.getText().toString(), eventSpinner.getSelectedItem().toString(),
-                            date.getText().toString(), time.getText().toString(), "43.023412,3.23", null, 0, open.hasFocus());
+                            date.getText().toString(), time.getText().toString(), userLocation, null, 0, open.hasFocus());
                     RequestQueue queue = Volley.newRequestQueue(getActivity());
                     final String email = SharedPreferencesHelper.getUserEmail(getActivity());
                     final String passwd = SharedPreferencesHelper.getUserPassword(getActivity());

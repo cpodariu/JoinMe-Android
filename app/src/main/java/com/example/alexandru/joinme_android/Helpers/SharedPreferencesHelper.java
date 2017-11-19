@@ -3,10 +3,6 @@ package com.example.alexandru.joinme_android.Helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * Created by cpodariu on 11/18/17.
- */
-
 public class SharedPreferencesHelper {
     private static final String PREFERENCE_FILE = "joinmepreferencefile";
     public static final String USER_EMAIL_KEY = "joinmeemailkey";
