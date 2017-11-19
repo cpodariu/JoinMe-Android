@@ -55,8 +55,7 @@ public class NavigationDrawer extends AppCompatActivity
     }
     public void setFragment(Fragment fragment)
     {
-        if (MapFragment.class.isInstance(fragment) || EventsListFragment.class.isInstance(fragment) || MyEventsListFragment.class.isInstance(fragment))
-            this.previousFragment = fragment;
+        this.previousFragment = fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frag_container_id, fragment).commit();
     }
@@ -69,6 +68,8 @@ public class NavigationDrawer extends AppCompatActivity
         } else {
             if (previousFragment != null)
             {
+                if (previousFragment == getSupportFragmentManager().getFragments().get(0))
+                    this.finish();
                 try {
                     setFragment( previousFragment.getClass().newInstance());
                 } catch (InstantiationException e) {
@@ -76,7 +77,6 @@ public class NavigationDrawer extends AppCompatActivity
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-                previousFragment = null;
             }else
                 this.finish();
         }
