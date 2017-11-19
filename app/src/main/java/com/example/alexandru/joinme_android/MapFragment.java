@@ -43,6 +43,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 /**
@@ -132,6 +133,16 @@ public class MapFragment extends Fragment {
         return v;
     }
 
+    public int getDrawableId(String name){
+        try {
+            Field fld = R.drawable.class.getField(name);
+            return fld.getInt(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     private void drawEventMarkers(String jsonArray) {
 
         EventResponse eventResponse = new Gson().fromJson(jsonArray, EventResponse.class);
@@ -145,8 +156,26 @@ public class MapFragment extends Fragment {
             MarkerOptions markerOptions=new MarkerOptions()
                     .position(coord)
                     .title(e.getName())
-                    .snippet(""+numberOfUsers+" participants.")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.sport_bowling_pin));
+                    .snippet(""+numberOfUsers+" participants.");
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other_pin));
+            String pinName=e.getCategory().toLowerCase()+"_"+e.getName().toLowerCase()+"_pin";
+            int drawableId=getDrawableId(pinName);
+            if(drawableId!=-1)
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(drawableId));
+            /*switch (e.getCategory()){
+                case "sport":
+                    break;
+                case "entertainment":
+                    break;
+                case "socialising":
+                    break;
+                case "culture":
+                    break;
+                default:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other_pin));
+
+            }*/
+
             Marker currentMarker = googleMap.addMarker(markerOptions);
             markerCollection.put(currentMarker,e);
 
