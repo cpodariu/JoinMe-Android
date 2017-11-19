@@ -1,6 +1,5 @@
 package com.example.alexandru.joinme_android;
 
-import android.app.Application;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
