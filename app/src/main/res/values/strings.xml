@@ -12,6 +12,9 @@
     <string name="next">Next</string>
     <string-array name="event_type">
         <item>Sport</item>
+        <item>Culture</item>
+        <item>Socialising</item>
+        <item>Entertainment</item>
         <item>Art</item>
         <item>Drinking</item>
     </string-array>
