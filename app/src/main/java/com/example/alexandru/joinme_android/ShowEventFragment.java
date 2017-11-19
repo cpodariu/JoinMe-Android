@@ -49,8 +49,8 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
 
     private Event event;
 
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
 
     private Boolean check;
     @SuppressLint("ValidFragment")
@@ -74,8 +74,8 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
         }
 
         String[] coordinates = event.getLocation().split(", ");
-        latitude = Float.parseFloat(coordinates[0]);
-        longitude = Float.parseFloat(coordinates[1]);
+        latitude = Double.parseDouble(coordinates[0]);
+        longitude = Double.parseDouble(coordinates[1]);
 
         button2 = (FloatingActionButton) view.findViewById(R.id.button2);
         button2.setOnClickListener(this);
