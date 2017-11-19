@@ -10,7 +10,7 @@ import android.net.Uri;
 
 public class NetworkUtils {
     private static final String PROTOCOL = "http";
-    private static final String BASE_URL = "192.168.43.253:8080";
+    private static final String BASE_URL = "192.168.137.103:8080";
 
     private static final String LOG_IN_PATH = "rest/login";
     private static final String GET_EVENTS_BY_INTERESTS_PATH ="rest/getEventsByInterests";
