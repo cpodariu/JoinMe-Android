@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,7 +45,7 @@ public class CreateEventFragment extends Fragment {
     EditText name;
     EditText description;
     CheckBox open;
-    Button add;
+    FloatingActionButton add;
     EditText time;
     EditText location;
 
@@ -62,28 +63,17 @@ public class CreateEventFragment extends Fragment {
         name = (EditText) v.findViewById(R.id.name);
         description = (EditText) v.findViewById(R.id.description);
         open = (CheckBox) v.findViewById(R.id.open);
-        add = (Button) v.findViewById(R.id.add);
+        add = (FloatingActionButton) v.findViewById(R.id.add);
         date = v.findViewById(R.id.date);
         time = v.findViewById(R.id.time);
         location = v.findViewById(R.id.location);
 
-        Geocoder coder = new Geocoder(getActivity());
-        List<Address> address = null;
 
-        try {
-            address = coder.getFromLocationName(location.getText().toString(),5);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Address location=address.get(0);
-
-        location.getLongitude();
-        final String userLocation = Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude());
-
+//        final String userLocation = "1,1";
 
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
                 .createFromResource(getActivity(), R.array.event_type,
-                        android.R.layout.simple_spinner_item);
+                        R.layout.spinner_item);
         eventSpinner.setAdapter(staticAdapter);
 
 
@@ -92,6 +82,18 @@ public class CreateEventFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (name.toString() != "") {
+                    Geocoder coder = new Geocoder(getActivity());
+                    List<Address> address = null;
+
+                    try {
+                        address = coder.getFromLocationName(location.getText().toString(),5);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Address location=address.get(0);
+
+                    location.getLongitude();
+                    final String userLocation = Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude());
 
                     event = new Event(name.getText().toString(), description.getText().toString(), eventSpinner.getSelectedItem().toString(),
                             date.getText().toString(), time.getText().toString(), userLocation, null, 0, open.hasFocus());

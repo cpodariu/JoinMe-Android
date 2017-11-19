@@ -73,7 +73,8 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
             }
         }
 
-        String[] coordinates = event.getLocation().split(",");
+
+        String[] coordinates = event.getLocation().split(", ");
         latitude = Double.parseDouble(coordinates[0]);
         longitude = Double.parseDouble(coordinates[1]);
 
@@ -147,6 +148,8 @@ public class ShowEventFragment extends Fragment implements OnMapReadyCallback,Vi
                 @Override
                 public void onResponse(String response) {
                     button2.setEnabled(false);
+                    button2.setImageResource(R.drawable.delete_icon);
+                    check = false;
                 }
             }, new Response.ErrorListener() {
                 @Override
