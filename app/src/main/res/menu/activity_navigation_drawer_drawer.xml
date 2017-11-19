@@ -20,5 +20,4 @@
         android:icon="@drawable/ic_today_black_24dp"
         android:title="My events" />
 
-
 </menu>

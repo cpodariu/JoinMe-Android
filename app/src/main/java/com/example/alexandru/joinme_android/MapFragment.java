@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -44,6 +45,7 @@ public class MapFragment extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
     HashMap<Marker, Event> markerCollection = new HashMap<Marker, Event>();
+    FloatingActionButton newEvent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,17 @@ public class MapFragment extends Fragment {
 
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
+
+        newEvent = (FloatingActionButton) v.findViewById(R.id.new_event_button);
+        newEvent.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                CreateEventFragment eventFragment= new CreateEventFragment();
+                ft.replace(R.id.frag_container_id, eventFragment, "NewFragmentTag");
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
 
         mMapView.onResume(); // needed to get the map to display immediately
 
