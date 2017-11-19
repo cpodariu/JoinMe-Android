@@ -79,7 +79,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
                 Event e= mDataSet.getEvents().get(position);
 
                 FragmentTransaction ft = manager.beginTransaction();
-                ShowEventFragment eventFragment=new ShowEventFragment();
+                ShowEventFragment eventFragment=new ShowEventFragment(e);
                 ft.replace(R.id.frag_container_id,eventFragment, "NewFragmentTag");
                 ft.addToBackStack(null);
                 ft.commit();

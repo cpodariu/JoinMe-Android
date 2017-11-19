@@ -1,16 +1,5 @@
 package com.example.alexandru.joinme_android;
 
-import android.Manifest;
-import android.app.AlertDialog;
-
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.location.LocationListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -44,10 +33,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
-
-/**
- * Created by Alexandru on 11/18/2017.
- */
 
 public class MapFragment extends Fragment {
     MapView mMapView;
@@ -88,7 +73,7 @@ public class MapFragment extends Fragment {
                         Event e=markerCollection.get(marker);
 
                         final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ShowEventFragment eventFragment=new ShowEventFragment();
+                        ShowEventFragment eventFragment=new ShowEventFragment(e);
                         ft.replace(R.id.frag_container_id,eventFragment, "NewFragmentTag");
                         ft.addToBackStack(null);
                         ft.commit();
@@ -148,7 +133,7 @@ public class MapFragment extends Fragment {
                     .position(coord)
                     .title(e.getName())
                     .snippet(""+numberOfUsers+" participants.")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.test));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.sport_bowling_pin));
             Marker currentMarker = googleMap.addMarker(markerOptions);
             markerCollection.put(currentMarker,e);
 
